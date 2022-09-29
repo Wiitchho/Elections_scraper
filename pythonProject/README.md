@@ -1,24 +1,19 @@
-WEB SCRAPING
-Tento projekt je založení na web scraping 
-volby.cz z roku 2017.
+# engeto_project_3
 
-Scrapinguje data o volbách a posléze tyto data ukládá do csv souboru.
+Web Scraper
 
-Uživatel si vybere:
-1. Uzemní celek
-2. Podoblast územního celku
+## Installation
 
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install beautifulsoup and requests.
+Check the requirements file.
 
+pip install beautifulsoup4
+pip install requests
 
-Instalace knihoven:
-Na stránce https://www.tutorialspoint.com/python/python_modules.htm , lze nalézt popis určených knihoven
+## How to run the project
 
-Knihovny lze instalovat 2 způsoby:
-1. V terminále
-$pip install 'jméno balíčku'  (beautifulsoup4)
-2. PyCharm -> File -> New Project Setup -> Preferences for New Project
-, Po vybrání Python Interpreter můžu pomoci symbolu '+' instalovat balíčky
+Run the file using CMD, the program requires two arguments
 
-Příklad fungování:
-Po přivítání uživatele, bude uživatel dotázán, do jaké oblasti chce uživatel nahlížet a posléze jaké data ho zajímají (Všechny nebo jenom počet volících
-)
+python engeto_project_3 | LINK | name of the csv file
+
+[example link](https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=12&xnumnuts=7103)

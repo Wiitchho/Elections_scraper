@@ -16,7 +16,10 @@ def filtr(url):
     soup = bs(resp.text, 'html.parser')
     return soup
 
-#odkazy na krajské města
+''' 
+vezme argument odkazu a vytáhne veškeré odkazy obsahující href
+pokud neobsahuje href, přeskočí to a pokračuje dál.
+'''
 def take_url(soup):
     hrefs = []
     for td in soup.find_all('td'):
@@ -36,6 +39,7 @@ uzemni_urovne = [url for url in urls if 'ps32?' in url]
 seznam_obci.append(uzemni_urovne)
 
 # funkce na odkazy na obce
+'''Vezme odkaz a vytáhne z toho '''
 def url_town(soup):
     take_soup = filtr(soup)
     obec_url = []
@@ -47,13 +51,14 @@ def url_town(soup):
 
 def name_town(url):
     data = filtr(url)
-    for h3 in data.find("div", {"id": "publikace"}).find_all('h3'):
-        if "Přebírací místo:" in h3.text:
-            nazev_obce = h3.text.replace('Přebírací místo: ', '').strip()
-    return nazev_obce
+    t = []
+    for u in data.find_all('td',{'class':'overflow_name'}):
+        value = u.text.replace('\xa0','')
+        t.append(value)
+    return t
 
 def code_town(url):
-    kod_obce = int(url.split('&')[2].replace("xpm=", ""))
+    kod_obce = int(url.split('&')[2].replace("xobec=", ""))
     return kod_obce
 
 def data_town(url):
@@ -95,6 +100,14 @@ def political_data_c(url):
     second = political_data_2(url)
     return list(first + second)
 
+def name_region(url):
+    data = filtr(url)
+    s = []
+    for div in data.find('div',{'id':'publikace'}).find_all('h3'):
+        value = div.text.replace('\n','')
+        s.append(value)
+    return s[1]
+
 def dat_final(url):
     odkazy = url_town(url)
     list_d = []
@@ -108,7 +121,7 @@ def dat_final(url):
     return list_d
 
 #ukládání csv podle head_1
-def main(url,name):
+def csv_save(url,name):
     data = url_town(url)[0]
     head_1 = ['Kód obce', 'Název obce', 'Voliči v seznamu', 'Vydané obálky', 'Platné hlasy']
     for d in political_party(data):
@@ -120,11 +133,13 @@ def main(url,name):
             writer.writerow(row)
         print('Data uloženy')
 
+def main():
+    url = 'https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=10&xnumnuts=6101'
+    csv_save(url,name_region(url))
+
 if __name__ == '__main__':
     main()
 
-data_x = 'https://www.volby.cz/pls/ps2017nss/ps31?xjazyk=CZ&xkraj=2&xnumnuts=2108'
-print(main(data_x , 'data_sa'))
 
 
 

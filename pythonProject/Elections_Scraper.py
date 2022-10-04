@@ -39,7 +39,7 @@ uzemni_urovne = [url for url in urls if 'ps32?' in url]
 seznam_obci.append(uzemni_urovne)
 
 # funkce na odkazy na obce
-'''Vezme odkaz a vytáhne z toho '''
+'''Vezme odkaz a vytáhne z toho odkazy na hlubší procházení'''
 def url_town(soup):
     take_soup = filtr(soup)
     obec_url = []
@@ -49,6 +49,8 @@ def url_town(soup):
                 obec_url.append(url)
     return obec_url
 
+'''Funkce projede přes filtr a najde jméno obcí. 
+ Vrátí je v seznamu'''
 def name_town(url):
     data = filtr(url)
     t = []
@@ -57,10 +59,14 @@ def name_town(url):
         t.append(value)
     return t
 
+'''Funkce rozkrájí odkaz pomoci metody split
+ a v pořadí &[2] najde xobec= kód
+'''
 def code_town(url):
     kod_obce = int(url.split('&')[2].replace("xobec=", ""))
     return kod_obce
 
+'''vybere data, které budeme ukládat pod hlavičkou do csv souboru'''
 def data_town(url):
     data = filtr(url)
     list_id_sa = ['sa2','sa3','sa6']
@@ -71,14 +77,8 @@ def data_town(url):
         d_town.append(int(value))
     return d_town
 
-def political_party(data):
-    data = filtr(data)
-    list_party = []
-    for td in data.find_all('td',{'class':'overflow_name'}):
-        value = td.text.replace('\xa0','')
-        list_party.append(value)
-    return list_party
-
+'''Funkce na tahání politických stran a počet voličů.
+První sloupec.'''
 def political_data_1(data):
     data = filtr(data)
     list_data = []
@@ -87,6 +87,7 @@ def political_data_1(data):
         list_data.append(value)
     return list_data
 
+'''Pokračování dalšího sloupce.'''
 def political_data_2(data):
     data = filtr(data)
     list_data = []
@@ -95,11 +96,13 @@ def political_data_2(data):
         list_data.append(value)
     return list_data
 
+'''Spojení dat pro lepší ukládání'''
 def political_data_c(url):
     first = political_data_1(url)
     second = political_data_2(url)
     return list(first + second)
 
+'''funkce prpo ukládání názvu souboru podle územního celku'''
 def name_region(url):
     data = filtr(url)
     s = []
@@ -108,6 +111,7 @@ def name_region(url):
         s.append(value)
     return s[1]
 
+'''Seřazení dat k sobě. Return: data které následně budeme ukládat.'''
 def dat_final(url):
     odkazy = url_town(url)
     list_d = []
@@ -121,6 +125,7 @@ def dat_final(url):
     return list_d
 
 #ukládání csv podle head_1
+'''Ukládání do csv souboru, hlavička head_1 + politické strany'''
 def csv_save(url,name):
     data = url_town(url)[0]
     head_1 = ['Kód obce', 'Název obce', 'Voliči v seznamu', 'Vydané obálky', 'Platné hlasy']
@@ -133,6 +138,7 @@ def csv_save(url,name):
             writer.writerow(row)
         print('Data uloženy')
 
+'''Parsování Kraj vysočina, Havlíčkův Brod.'''
 def main():
     url = 'https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=10&xnumnuts=6101'
     csv_save(url,name_region(url))

@@ -87,7 +87,7 @@ def political_data_1(data):
         list_data.append(value)
     return list_data
 
-'''Pokračování dalšího sloupce.'''
+'''Pokračování dalšího sloupce. '''
 def political_data_2(data):
     data = filtr(data)
     list_data = []

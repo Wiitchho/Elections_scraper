@@ -78,7 +78,7 @@ def data_town(url):
     return d_town
 
 '''Funkce na tahání politických stran a počet voličů.
-První sloupec.'''
+První sloupec. '''
 def political_data_1(data):
     data = filtr(data)
     list_data = []

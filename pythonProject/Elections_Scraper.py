@@ -4,7 +4,7 @@ projekt_3.py: třetí projekt do Engeto Online Python Akademie
 author: Ondřej Vinkler
 email: vinkler.prodej@gmail.com
 discord: Witchho #8933
-"""
+ """
 
 import csv
 import requests

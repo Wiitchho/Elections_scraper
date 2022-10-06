@@ -54,9 +54,10 @@ def url_town(soup):
 def name_town(url):
     data = filtr(url)
     t = []
-    for u in data.find_all('td',{'class':'overflow_name'}):
-        value = u.text.replace('\xa0','')
-        t.append(value)
+    for h3 in data.find("div", {"id": "publikace"}).find_all('h3'):
+        if "Obec:" in h3.text:
+            value = h3.text.replace('Obec: ', '').strip()
+            t.append(value)
     return t
 
 '''Funkce rozkrájí odkaz pomoci metody split
@@ -76,6 +77,14 @@ def data_town(url):
         value=value.text.replace('\xa0', '')
         d_town.append(int(value))
     return d_town
+
+def political_party(data):
+    data = filtr(data)
+    list_party = []
+    for td in data.find_all('td',{'class':'overflow_name'}):
+        value = td.text.replace('\xa0','')
+        list_party.append(value)
+    return list_party
 
 '''Funkce na tahání politických stran a počet voličů.
 První sloupec. '''

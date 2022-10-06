@@ -78,14 +78,6 @@ def data_town(url):
         d_town.append(int(value))
     return d_town
 
-def political_party(data):
-    data = filtr(data)
-    list_party = []
-    for td in data.find_all('td',{'class':'overflow_name'}):
-        value = td.text.replace('\xa0','')
-        list_party.append(value)
-    return list_party
-
 '''Funkce na tahání politických stran a počet voličů.
 První sloupec. '''
 def political_data_1(data):

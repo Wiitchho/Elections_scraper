@@ -36,7 +36,7 @@ def take_url(soup):
 
 
 def deep():
-    """Vytáhne odkazy na všechny obce """
+    """Vytáhne odkazy na stránku se všemi obcemi """
     seznam_obci = []
     urls = take_url(filtr('https://volby.cz/pls/ps2017nss/ps3?xjazyk=CZ'))
     uzemni_urovne = [url for url in urls if 'ps32?' in url]

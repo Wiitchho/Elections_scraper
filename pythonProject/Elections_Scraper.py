@@ -50,7 +50,7 @@ def url_town(soup):
     obec_url = []
     for level in deep():
         for url in take_url(take_soup):
-            if 'ps311' in url:
+            if 'ps311' in url and url not in obec_url:
                 obec_url.append(url)
     return obec_url
 
@@ -59,11 +59,11 @@ def name_town(url):
     """Funkce projede přes filtr a najde jméno obcí.
      Vrátí je v seznamu"""
     data = filtr(url)
-    t = []
+    t = ''
     for h3 in data.find("div", {"id": "publikace"}).find_all('h3'):
         if "Obec:" in h3.text:
             value = h3.text.replace('Obec: ', '').strip()
-            t.append(value)
+            t += value
     return t
 
 
@@ -99,8 +99,8 @@ def political_party(url):
 
 
 def political_data_c(data):
-    """Funkce na tahání politických stran a počet voličů.
-    return: list politických stran. """
+    """Funkce na tahání počet voličů.
+    return: list počet voličů u kandidující str. """
     data = filtr(data)
     list_data = []
     for td in data.find_all('td', {'headers': 't1sa2 t1sb3'}):
@@ -113,7 +113,7 @@ def political_data_c(data):
 
 
 def name_region(url):
-    """funkce prpo ukládání názvu souboru podle územního celku"""
+    """funkce pro ukládání názvu souboru podle územního celku"""
     data = filtr(url)
     s = []
     for div in data.find('div', {'id': 'publikace'}).find_all('h3'):
@@ -157,7 +157,7 @@ def csv_save(url, name):
 
 def main():
     """Parsování Kraj vysočina, Havlíčkův Brod."""
-    url = 'https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=10&xnumnuts=6101'
+    url = 'https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=10&xnumnuts=6101'
     csv_save(url, name_region(url))
 
 
